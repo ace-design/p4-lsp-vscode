@@ -1,0 +1,57 @@
+{
+	"name": "p4lsp",
+	"description": "Language support for the P4 Language",
+	"author": "ACE Design",
+	"license": "MIT",
+	"version": "0.1.0",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Microsoft/vscode-extension-samples"
+	},
+	"publisher": "ace-design",
+	"categories": [],
+	"keywords": [
+		"p4"
+	],
+	"engines": {
+		"vscode": "^1.75.0"
+	},
+	"main": "./client/out/extension",
+	"contributes": {
+		"languages": [
+			{
+				"id": "p4",
+				"aliases": [
+					"P4",
+					"P4 Lang"
+				],
+				"extensions": [
+					".p4",
+					".P4"
+				]
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Example configuration",
+			"properties": {}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -b",
+		"watch": "tsc -b -w",
+		"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
+		"postinstall": "cd client && npm install && cd ..",
+		"test": "sh ./scripts/e2e.sh"
+	},
+	"devDependencies": {
+		"@types/mocha": "^9.1.0",
+		"@types/node": "^16.18.34",
+		"@typescript-eslint/eslint-plugin": "^5.54.0",
+		"@typescript-eslint/parser": "^5.54.0",
+		"eslint": "^8.35.0",
+		"mocha": "^9.2.1",
+		"typescript": "^5.1.3"
+	}
+}
