@@ -6,19 +6,28 @@ Visual Studio Code language support for P4 using [p4-lsp](https://github.com/ace
 
 ### Manual Installation
 
-#### 1 - Install VS Code Extension Manager (Requires [Node.js](https://nodejs.org/))
+Requirements :
+- [Node.js](https://nodejs.org/)
+- [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
 
+#### 1 - Install the Language Server
+
+```sh
+cargo install --git https://github.com/ace-design/p4-lsp
+```
+
+#### 2 - Install VS Code Extension Manager
 ```sh
 npm install -g vsce
 ```
 
-#### 2 - Package the extension
+#### 3 - Package the extension
 
 ```sh
 vsce package
 ```
 
-#### 3 - Install the extension
+#### 4 - Install the extension
 
 ```sh
 code --install-extension p4lsp-0.1.0.vsix
