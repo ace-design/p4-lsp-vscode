@@ -2,9 +2,27 @@
 
 Visual Studio Code language support for P4 using [p4-lsp](https://github.com/ace-design/p4-lsp).
 
-## Installation instruction
+## Installation Instructions
 
-**TODO**
+### Manual Installation
+
+#### 1 - Install VS Code Extension Manager (Requires [Node.js](https://nodejs.org/))
+
+```sh
+npm install -g vsce
+```
+
+#### 2 - Package the extension
+
+```sh
+vsce package
+```
+
+#### 3 - Install the extension
+
+```sh
+code --install-extension p4lsp-0.1.0.vsix
+```
 
 ## Development
 
