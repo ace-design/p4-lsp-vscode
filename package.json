@@ -1,14 +1,14 @@
 {
 	"name": "p4lsp",
 	"description": "Language support for the P4 Language",
-	"author": "ACE Design",
+	"author": "McSCert",
 	"license": "MIT",
 	"version": "0.1.0",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-extension-samples"
+		"url": "https://github.com/ace-design/p4-lsp-vscode"
 	},
-	"publisher": "ace-design",
+	"publisher": "mcscert",
 	"categories": [],
 	"keywords": [
 		"p4"
