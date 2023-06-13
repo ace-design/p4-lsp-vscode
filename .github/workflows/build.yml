@@ -29,5 +29,6 @@ jobs:
 
     - uses: actions/upload-artifact@v3
       with:
-        path: p4lsp-*.vsix
+        name: p4lsp-*.vsix
+        path:
         if-no-files-found: error
