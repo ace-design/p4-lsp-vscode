@@ -1,8 +1,25 @@
 # P4 LSP
 
+> **Disclaimer:** This extension is highly experimental and comes with no guarantees of functionality or stability. Use at your own risk.
+
 Visual Studio Code language support for P4 using [p4-lsp](https://github.com/ace-design/p4-lsp).
 
 ## Installation Instructions
+
+### VSCode Marketplace Installation
+
+Requirements :
+- [Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html)
+
+#### 1 - Install the Language Server
+
+```sh
+cargo install --git https://github.com/ace-design/p4-lsp
+```
+
+#### 2 - Install the VS Code Extension 
+
+Click on Install.
 
 ### Manual Installation
 
