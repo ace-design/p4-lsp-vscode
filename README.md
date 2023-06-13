@@ -17,7 +17,7 @@ cargo install --git https://github.com/ace-design/p4-lsp
 
 #### 2 - Install the VS Code Extension 
 
-Download the latest [release of the extension](https://github.com/ace-design/p5-lsp-vscode/releases/latest) and install it.
+Download the latest [release of the extension](https://github.com/ace-design/p4-lsp-vscode/releases/latest) and install it.
 
 ```sh
 code --install-extension p4lsp-*.vsix
