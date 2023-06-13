@@ -1,10 +1,10 @@
 name: Build and release extension
 
+
 on:
   push:
-    branches: [ "main", "pipeline" ]
-  pull_request:
-    branches: [ "main" ]
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:
