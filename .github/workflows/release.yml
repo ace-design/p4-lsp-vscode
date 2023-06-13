@@ -26,6 +26,9 @@ jobs:
     - run: npm install -g @vscode/vsce
     - run: npm install
     - run: vsce package
+    
+    - name: Publish
+      run: vsce publish -p ${{ secrets.VSCE_PAT }}
 
     - name: Release
       uses: softprops/action-gh-release@v1
