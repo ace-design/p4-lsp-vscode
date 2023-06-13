@@ -1,4 +1,4 @@
-name: Build extension
+name: Build and release extension
 
 on:
   push:
@@ -32,3 +32,8 @@ jobs:
         name: p4lsp.vsix
         path: p4lsp-*.vsix
         if-no-files-found: error
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: p4lsp.vsix
