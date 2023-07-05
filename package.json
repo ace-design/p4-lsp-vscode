@@ -21,6 +21,11 @@
 	],
 	"main": "./client/out/extension",
 	"contributes": {
+		"configurationDefaults": {
+			"[p4]": {
+				"files.eol": "\n"
+			}
+		},
 		"languages": [
 			{
 				"id": "p4",
@@ -43,7 +48,18 @@
 					"type": "string",
 					"description": "Path to `p4_lsp` executable.",
 					"format": "path"
-				  }
+				},
+				"p4.trace.server": {
+					"scope": "window",
+					"type": "string",
+					"enum": [
+						"off",
+						"messages",
+						"verbose"
+					],
+					"default": "off",
+					"description": "Traces the communication between VS Code and the language server."
+				}
 			}
 		}
 	},
@@ -52,8 +68,7 @@
 		"compile": "tsc -b",
 		"watch": "tsc -b -w",
 		"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
-		"postinstall": "cd client && npm install && cd ..",
-		"test": "sh ./scripts/e2e.sh"
+		"postinstall": "cd client && npm install && cd .."
 	},
 	"devDependencies": {
 		"@types/mocha": "^9.1.0",

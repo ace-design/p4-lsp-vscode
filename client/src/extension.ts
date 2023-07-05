@@ -66,7 +66,7 @@ async function installExecutable(context: ExtensionContext): Promise<string | nu
         const installDir = vscode.Uri.joinPath(context.globalStorageUri, "p4_lsp_install");
         if (!fs.existsSync(installDir.fsPath)) mkdirp.sync(installDir.fsPath);
 
-        const lsBinPath = vscode.Uri.joinPath(installDir, `p4_lsp`).fsPath;
+        const lsBinPath = vscode.Uri.joinPath(installDir, `p4_lsp${process.platform === "win32" ? ".exe" : ""}`).fsPath;
         const lsBinTempPath = lsBinPath + ".tmp";
 
         // Create a new executable file.
