@@ -17,6 +17,7 @@ export async function activate(context: ExtensionContext) {
     let bin_path = lspConfig.get<string | null>("path", null);
 
     if (!bin_path) {
+        window.showInformationMessage(`No language server path specified. Installing latest version.`);
         bin_path = await installExecutable(context);
     }
 
