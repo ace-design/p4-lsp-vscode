@@ -1,8 +1,10 @@
 {
 	"name": "p4lsp",
+	"displayName": "P4 LSP",
 	"description": "Language support for the P4 Language",
 	"author": "McSCert",
 	"license": "MIT",
+	"icon": "images/logo.png",
 	"version": "0.1.4",
 	"repository": {
 		"type": "git",
