@@ -5,7 +5,7 @@
 	"author": "McSCert",
 	"license": "MIT",
 	"icon": "images/logo.png",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ace-design/p4-lsp-vscode"
