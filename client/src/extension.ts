@@ -47,7 +47,7 @@ export async function activate(context: ExtensionContext) {
     return client.start().catch(reason => {
         window.showWarningMessage(`Failed to run P4 Language Server (P4_LSP): ${reason}`);
         client = null;
-    })
+    });
 }
 
 // Modified version of https://github.com/ziglang/vscode-zig/blob/fd7e111d3ca4f518ec929568e2aaa9a5b588094e/src/zls.ts#L57 
@@ -77,7 +77,7 @@ async function installExecutable(context: ExtensionContext): Promise<string | nu
         fs.chmodSync(lsBinTempPath, 0o755);
         fs.renameSync(lsBinTempPath, lsBinPath);
 
-        let config = workspace.getConfiguration("p4.p4_lsp");
+        const config = workspace.getConfiguration("p4.p4_lsp");
         await config.update("path", lsBinPath, true);
 
         return lsBinPath;
