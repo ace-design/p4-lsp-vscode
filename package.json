@@ -1,0 +1,95 @@
+{
+	"name": "p4lsp",
+	"displayName": "P4 LSP",
+	"description": "Language support for the P4 Language",
+	"author": "McSCert",
+	"license": "MIT",
+	"icon": "images/logo.png",
+	"version": "0.1.5",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ace-design/p4-lsp-vscode"
+	},
+	"publisher": "mcscert",
+	"categories": [],
+	"keywords": [
+		"p4"
+	],
+	"engines": {
+		"vscode": "^1.75.0"
+	},
+	"activationEvents": [
+		"onLanguage:p4"
+	],
+	"main": "./client/out/extension",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.showMyMessage",
+				"title": "Show My Message"
+			}
+		],
+		"configurationDefaults": {
+			"[p4]": {
+				"files.eol": "\n"
+			}
+		},
+		"languages": [
+			{
+				"id": "p4",
+				"aliases": [
+					"P4",
+					"P4 Lang"
+				],
+				"extensions": [
+					".p4",
+					".P4"
+				]
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "P4 LSP",
+			"properties": {
+				"p4.p4_lsp.path": {
+					"scope": "resource",
+					"type": "string",
+					"description": "Path to `p4_lsp` executable.",
+					"format": "path"
+				},
+				"p4.trace.server": {
+					"scope": "window",
+					"type": "string",
+					"enum": [
+						"off",
+						"messages",
+						"verbose"
+					],
+					"default": "off",
+					"description": "Traces the communication between VS Code and the language server."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -b",
+		"watch": "tsc -b -w",
+		"lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
+		"postinstall": "cd client && npm install && cd .."
+	},
+	"devDependencies": {
+		"@types/mocha": "^9.1.0",
+		"@types/node": "^16.18.34",
+		"@typescript-eslint/eslint-plugin": "^5.54.0",
+		"@typescript-eslint/parser": "^5.54.0",
+		"eslint": "^8.35.0",
+		"mocha": "^9.2.1",
+		"typescript": "^5.1.3"
+	},
+	"dependencies": {
+		"axios": "^1.4.0",
+		"fs": "^0.0.1-security",
+		"mkdirp": "^3.0.1"
+	}
+}
