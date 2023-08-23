@@ -276,7 +276,12 @@ export async function activate(context: ExtensionContext) {
     clientOptions
   );
   client.onNotification("custom", (notification: any) => {
-    if (notification.message.length > 0) {
+    if (notification.message.length > 0 && notification.data.length <= 0) {
+      vscode.window.showInformationMessage(notification.message);
+    } else if (
+      notification.message.length > 0 &&
+      notification.data.length > 0
+    ) {
       vscode.window
         .showInformationMessage(notification.message, "LSP Result")
         .then((selection) => {
