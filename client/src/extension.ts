@@ -31,8 +31,6 @@ const getSavedData = async (context) => {
   //window.showInformationMessage(`${pluginsAr.length}`);
 };
 
-const changeJsonData = async () => {};
-
 function getWebviewContent(): string {
   // Define an array of binary locations (for demonstration)
 
@@ -178,31 +176,20 @@ function getWebviewContent(): string {
     `;
 }
 
-const showMessage = (context) => {
-  vscode.window.showInformationMessage("LSP PLUGIN SETTINGS");
+function openWebView(data: string) {
   const panel = vscode.window.createWebviewPanel(
     "binaryLocations",
     "Binary Locations",
     vscode.ViewColumn.One,
-    {}
-  );
-  // Set up message listener
-  panel.webview.onDidReceiveMessage(
-    (message) => {
-      switch (message.command) {
-        case "alert":
-          vscode.window.showErrorMessage(message.text);
-          return;
-      }
-    },
-    undefined,
-    context.subscriptions
+    {
+      enableScripts: true,
+    }
   );
 
-  // Load your HTML content here
-  panel.webview.html = getWebviewContent();
-};
+  // Load the webview content from an HTML file
 
+  panel.webview.html = `<p>${data}<p>`;
+}
 export async function activate(context: ExtensionContext) {
   // Register the command
   getSavedData(context);
@@ -272,15 +259,8 @@ export async function activate(context: ExtensionContext) {
     },
     initializationOptions: [
       {
-        name: "noel",
-        path: "noel",
-        on: ["Save"],
-        arguments: [{ key: "f", value: "fd" }],
-        state: true,
-      },
-      {
         name: "nofel",
-        path: "nofel",
+        path: "python3 Users/noelchungathgregory/Documents/PLugins/test.py",
         on: ["Save"],
         arguments: [{ key: "f", value: "fd" }],
         state: true,
@@ -295,6 +275,21 @@ export async function activate(context: ExtensionContext) {
     serverOptions,
     clientOptions
   );
+  client.onNotification("custom", (notification: any) => {
+    if (notification.message.length > 0) {
+      vscode.window
+        .showInformationMessage(notification.message, "LSP Result")
+        .then((selection) => {
+          if (notification.data.length > 0 && selection === "LSP Result") {
+            openWebView(notification.data); // Open the webview panel with the data
+          }
+        });
+    } else {
+      if (notification.data.length > 0) {
+        openWebView(notification.data); // Open the webview panel with the data
+      }
+    }
+  });
 
   // Start the client. This will also launch the server
   return client.start().catch((reason) => {
