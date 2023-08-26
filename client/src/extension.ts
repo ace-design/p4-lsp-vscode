@@ -5,6 +5,7 @@ import * as mkdirp from "mkdirp";
 import axios from "axios";
 import { Plugin } from "./plugin";
 import * as path from "path";
+import { getWebviewContent } from "./settingUI";
 
 import {
   LanguageClient,
@@ -13,168 +14,25 @@ import {
 } from "vscode-languageclient/node";
 
 let client: LanguageClient;
-
 let pluginsAr = [];
-
 const getSavedData = async (context) => {
   //Read Json
   const fileUri = vscode.Uri.file(
     path.join(context.extensionPath, "files", "lsp.json")
   );
-
   let dataArray = JSON.parse(fs.readFileSync(fileUri.fsPath, "utf-8"));
   for (let item of dataArray) {
     window.showInformationMessage(`${JSON.stringify(item)}`);
-    const plugin = new Plugin(item["path"], item["active"], item["name"]);
+    const plugin = new Plugin(
+      item["path"],
+      item["active"],
+      item["name"],
+      item["arguments"],
+      item["onTrigger"]
+    );
     pluginsAr.push(plugin);
   }
-  //window.showInformationMessage(`${pluginsAr.length}`);
 };
-
-function getWebviewContent(): string {
-  // Define an array of binary locations (for demonstration)
-
-  // Generate the HTML content
-  const plugins = pluginsAr
-    .map(
-      (plg, idx) => `
-        <li  id="${idx}"class="list-group-item ">
-            <form>
-                <div class="row g-3 align-items-center">
-                    <div class="col-auto">
-                    <label for="exampleInputEmail1" class="form-label">Plugin Name</label>
-                    </div>
-                    <div class="col-auto">
-                
-                    <input type="text" class="form-control" name="name" aria-describedby="emailHelp" value="${plg.getName()}" >
-                    </div>
-                    <div class="col-auto">
-                    <label for="exampleInputEmail1" class="form-label">Plugin Path</label>
-                    </div>
-                    <div class="col-auto">
-                
-                    <input type="email" class="form-control" name="path" aria-describedby="emailHelp" value="${plg.getPath()}">
-                    </div>
-                    <div class="col-auto">
-                    <label for="exampleInputEmail1" class="form-label">Plugin Argument</label>
-                    </div>
-                    <div class="col-auto">
-                
-                    <input type="email" class="form-control" name="path" aria-describedby="emailHelp" value="">
-                    </div>
-                    <div class="col-auto">
-                    <label class="form-check-label" for="exampleCheck1">Active</label>
-
-                    <input type="checkbox" class="form-check-input"  name="active" ${
-                      plg.getState() ? "checked" : ""
-                    }>
-                    </div>
-                </div>
-            </form>
-        </li>
-        `
-    )
-    .join("");
-
-  return `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Plugins Manager</title>
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-          
-        </head>
-        <body>
-            <h2>Plugins Manager Settings</h2>
-    
-        <form>
-            <div class="row g-3 align-items-center">
-                <div class="col-auto">
-                <label for="exampleInputEmail1" class="form-label">Plugin Name</label>
-                </div>
-                <div class="col-auto">
-            
-                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
-                </div>
-                <div class="col-auto">
-                <label for="exampleInputEmail1" class="form-label">Plugin Path</label>
-                </div>
-                <div class="col-auto">
-            
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
-                </div>
-                <div class="col-auto">
-                
-                    <input type="email" class="form-control" name="path" aria-describedby="emailHelp" >
-                    </div>
-                    <div class="col-auto">
-                    <label for="exampleInputEmail1" class="form-label">Plugin Argument</label>
-                    </div>
-                <div class="col-auto">
-                <label class="form-check-label" for="exampleCheck1">Active</label>
-
-                <input type="checkbox" class="form-check-input"  id="exampleCheck1">
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Plugin</button>
-        </form>
-            <hr>
-            <h4> Added Plugins</h4>
-            <ul id="listOfPlugins" class="list-group">
-                ${plugins}
-
-            </ul>
-            <button type="submit" id="changeData" onclick="sendMessage()"class="btn btn-primary">Save</button>
-            <button onclick="myFunction();">Click me</button>
-
-            <script>
-            let vscode = acquireVsCodeApi();
-                
-           
-            function myFunction() {
-               
-            let ul = document.getElementById('listOfPlugins');
-                const liElements = ul.querySelectorAll('li');
-                const dataArray = [];
-                vscode.postMessage({
-                    command: 'alert',
-                    text: '🐛  on line ' + liElements.length + ':'+ul
-                })
-                
-                for (let i = 0; i < liElements.length; i++) {
-                    const form = liElements[i].querySelector('form');
-                    const inputElements = form.querySelectorAll('input');
-                    const dataObject = {};
-
-                  
-                        dataObject['name'] = inputElements[0].value;
-                        dataObject['path'] = inputElements[1].value;
-                        dataObject['active'] = inputElements[2].value;
-
-                        dataObject['arguments'] = inputElements[3].value;
-                   
-
-                    dataArray.push(dataObject);
-
-                }
-                
-
-                // Send selected locations back to the extension
-                vscode.postMessage({
-                    command: 'saveLocations',
-                    locations: dataArray
-                });
-
-               
-            }
-            
-            </script>
-        </body>
-        </html>
-    `;
-}
 
 function openWebView(data: string) {
   const panel = vscode.window.createWebviewPanel(
@@ -201,12 +59,13 @@ export async function activate(context: ExtensionContext) {
         vscode.ViewColumn.One,
         {
           enableScripts: true,
+          enableFindWidget: true,
         }
       );
 
       // Load the webview content from an HTML file
 
-      panel.webview.html = getWebviewContent();
+      panel.webview.html = getWebviewContent(pluginsAr);
 
       // Set up message listener
       panel.webview.onDidReceiveMessage(
