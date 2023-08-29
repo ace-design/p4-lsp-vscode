@@ -15,6 +15,7 @@ import {
 
 let client: LanguageClient;
 let pluginsAr = [];
+let sendPlugin = [];
 const getSavedData = async (context) => {
   //Read Json
   const fileUri = vscode.Uri.file(
@@ -31,6 +32,22 @@ const getSavedData = async (context) => {
       item["onTrigger"]
     );
     pluginsAr.push(plugin);
+
+    let args = [];
+    plugin.getArg().forEach(e => {
+      args.push({
+        "key": e["key"],
+        "value": e["value"][0],
+      });
+    })
+
+    sendPlugin.push({
+        name: plugin.getName(),
+        path: plugin.getPath(),
+        on: plugin.getOnTrigger(),
+        arguments: args,
+        state: plugin.getState(),
+      });
   }
 };
 
@@ -116,15 +133,7 @@ export async function activate(context: ExtensionContext) {
       // Notify the server about file changes to '.clientrc files contained in the workspace
       fileEvents: workspace.createFileSystemWatcher("**/.clientrc"),
     },
-    initializationOptions: [
-      {
-        name: "nofel",
-        path: "python3 Users/noelchungathgregory/Documents/PLugins/test.py",
-        on: ["Save"],
-        arguments: [{ key: "f", value: "fd" }],
-        state: true,
-      },
-    ],
+    initializationOptions: sendPlugin,
   };
 
   // Create the language client and start the client.
